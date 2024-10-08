@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System</title>
+    <style>
+        :root {
+            --primary-color: #d4af37; /* Gold */
+            --hover-color: #b89f2e; /* Darker Gold */
+            --background-color: #000000; /* Black */
+            --container-bg: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+            --text-color: #ffffff; /* White */
+            --border-color: #d4af37; /* Gold for borders */
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('./jfsdpro/loan.jfif') no-repeat center center fixed;
+
+            background-size: cover; /* Ensure the image covers the entire background */
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.5s;
+            cursor: url('cursor.png'), auto; /* Custom cursor */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(255, 215, 0, 0.5); /* Gold shadow */
+            transition: transform 0.2s;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .login-form input {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: #2a2a2a; /* Dark gray for inputs */
+            color: var(--text-color);
+            transition: background-color 0.3s;
+        }
+
+        .login-form input:focus {
+            background-color: #444444; /* Lighter gray on focus */
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .button {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); /* Gold shadow */
+        }
+
+        .button:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5); /* Darker gold shadow on hover */
+        }
+
+        .role-section {
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .dashboard {
+            display: none;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); /* Gold shadow */
+        }
+
+        .active {
+            display: block;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: #333333; /* Darker gray for list items */
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background: #444444; /* Lighter gray on hover */
+        }
+
+        #login-message {
+            color: red;
+            text-align: center;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none; /* Initially hidden */
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Effects */
+        .scroll-effect {
+            transition: transform 0.3s;
+        }
+
+        .scroll-effect:hover {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <h1>Loan Management System</h1>
+
+        <!-- Login Page -->
+        <div id="login-page">
+            <h2>Login</h2>
+            <div class="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button class="button" onclick="login()">Login</button>
+            </div>
+            <p id="login-message"></p>
+            <div class="spinner" id="spinner"></div>
+        </div>
+
+        <!-- Main Page -->
+        <div class="role-section">
+            <h2>Select Your Role</h2>
+            <a href="#" class="button scroll-effect" onclick="showDashboard('borrower')">For Borrowers</a>
+            <a href="#" class="button scroll-effect" onclick="showDashboard('officer')">For Loan Officers</a>
+            <a href="#" class="button scroll-effect" onclick="showDashboard('admin')">For Admins</a>
+        </div>
+
+        <!-- Borrower Dashboard -->
+        <div id="borrower" class="dashboard">
+            <h2>Borrower Dashboard</h2>
+            <p>Welcome to the Borrower Dashboard! Here you can:</p>
+            <ul>
+                <li>Apply for loans quickly and easily.</li>
+                <li>Check the status of your loan applications.</li>
+                <li>Manage your payments and view payment history.</li>
+                <li>Contact support for any inquiries.</li>
+            </ul>
+            <a href="#" class="button scroll-effect" onclick="applyForLoan()">Apply for a Loan</a>
+            <a href="#" class="button scroll-effect" onclick="checkLoanStatus()">Check Loan Status</a>
+            <a href="#" class="button scroll-effect" onclick="managePayments()">Manage Payments</a>
+        </div>
+
+        <!-- Loan Officer Dashboard -->
+        <div id="officer" class="dashboard">
+            <h2>Loan Officer Dashboard</h2>
+            <p>Welcome to the Loan Officer Dashboard! Here you can:</p>
+            <ul>
+                <li>Review new loan applications.</li>
+                <li>Approve or reject applications based on eligibility.</li>
+                <li>Assist borrowers with any questions.</li>
+                <li>Generate reports on loan performance.</li>
+            </ul>
+            <a href="#" class="button scroll-effect" onclick="reviewApplications()">Review Applications</a>
+            <a href="#" class="button scroll-effect" onclick="generateReports()">Generate Reports</a>
+            <a href="#" class="button scroll-effect" onclick="contactBorrowers()">Contact Borrowers</a>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin" class="dashboard">
+            <h2>Admin Dashboard</h2>
+            <p>Welcome to the Admin Dashboard! Here you can:</p>
+            <ul>
+                <li>Manage loan officers and borrower accounts.</li>
+                <li>Review system performance and analytics.</li>
+                <li>Configure loan parameters and interest rates.</li>
+                <li>Access support and feedback from users.</li>
+            </ul>
+            <a href="#" class="button scroll-effect" onclick="manageUsers()">Manage Users</a>
+            <a href="#" class="button scroll-effect" onclick="viewAnalytics()">View Analytics</a>
+            <a href="#" class="button scroll-effect" onclick="configureSettings()">Configure Settings</a>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            // Simulate loading
+            document.getElementById('spinner').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('login-page').style.display = 'none';
+                document.querySelector('.role-section').style.display = 'block';
+                document.getElementById('login-message').innerText = '';
+                document.getElementById('spinner').style.display = 'none';
+            }, 1000); // Simulated delay for loading
+        }
+
+        function showDashboard(role) {
+            const dashboards = document.querySelectorAll('.dashboard');
+            dashboards.forEach(dashboard => dashboard.classList.remove('active'));
+            document.getElementById(role).classList.add('active');
+        }
+
+        function applyForLoan() {
+            alert("Loan application form will be opened.");
+        }
+
+        function checkLoanStatus() {
+            alert("Loan status page will be displayed.");
+        }
+
+        function managePayments() {
+            alert("Payments management page will be displayed.");
+        }
+
+        function reviewApplications() {
+            alert("Reviewing loan applications...");
+        }
+
+        function generateReports() {
+            alert("Generating loan performance reports...");
+        }
+
+        function contactBorrowers() {
+            alert("Contacting borrowers...");
+        }
+
+        function manageUsers() {
+            alert("Managing users...");
+        }
+
+        function viewAnalytics() {
+            alert("Viewing analytics...");
+        }
+
+        function configureSettings() {
+            alert("Configuring settings...");
+        }
+    </script>
+</body>
+</html>
